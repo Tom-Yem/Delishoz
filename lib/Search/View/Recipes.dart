@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+
+// core modules
+import 'package:recipe_app/Details/Details.dart';
 import 'package:recipe_app/Search/Controller/recipeController.dart';
 
 class RecipesPage extends StatelessWidget {
@@ -8,7 +11,9 @@ class RecipesPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text("Search Result")),
+      appBar: AppBar(
+        title: Text("Search Result"),
+      ),
       body: Obx(
         () {
           if (recipeController.isLoading.value)
@@ -16,18 +21,28 @@ class RecipesPage extends StatelessWidget {
           else {
             return GridView.count(
                 crossAxisCount: 2,
-                crossAxisSpacing: 12,
-                mainAxisSpacing: 12,
-                padding: EdgeInsets.symmetric(horizontal: 24),
+                crossAxisSpacing: 4,
+                mainAxisSpacing: 4,
+                padding: EdgeInsets.symmetric(horizontal: 8),
                 children: [
                   for (int i = 0; i < recipeController.recipes.length; i++)
-                    GridTile(
-                      child:
-                          Image.network(recipeController.recipes[i]['image']),
-                      // footer: GridTileBar(
-                      //   title: Text(recipeController.recipes[i].label),
-                      //   subtitle: Text(recipeController.recipes[i].label),
-                      // ),
+                    GestureDetector(
+                      onTap: () => Get.to(
+                        Details(
+                          recipe: recipeController.recipes[i],
+                        ),
+                      ),
+                      child: GridTile(
+                        child:
+                            Image.network(recipeController.recipes[i].image!),
+                        //TODO: Find fallback image for this
+                        footer: GridTileBar(
+                          title: Text(recipeController.recipes[i].title ?? ""),
+                          subtitle: Text("subtitle"),
+                          backgroundColor: Colors.black54,
+                          trailing: Icon(Icons.star, color: Colors.white60),
+                        ),
+                      ),
                     )
                 ]);
           }
