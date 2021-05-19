@@ -33,8 +33,10 @@ class RecipesPage extends StatelessWidget {
                         ),
                       ),
                       child: GridTile(
-                        child:
-                            Image.network(recipeController.recipes[i].image!),
+                        child: Hero(
+                            tag: recipeController.recipes[i].id!,
+                            child: Image.network(
+                                recipeController.recipes[i].image!)),
                         //TODO: Find fallback image for this
                         footer: GridTileBar(
                           title: Text(recipeController.recipes[i].title ?? ""),

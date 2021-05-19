@@ -19,12 +19,16 @@ class Details extends StatelessWidget {
         child: SingleChildScrollView(
           child: Column(
             children: [
-              Image.network(
-                //TODO: put fallback image here
-                recipe.image!,
-                fit: BoxFit.cover,
-                height: 250,
-                width: 500,
+              Hero(
+                tag: recipe.id!,
+                transitionOnUserGestures: true,
+                child: Image.network(
+                  //TODO: put fallback image here
+                  recipe.image!,
+                  fit: BoxFit.cover,
+                  height: 250,
+                  width: 500,
+                ),
               ),
               Padding(
                 padding: const EdgeInsets.all(24.0),
