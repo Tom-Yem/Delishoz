@@ -1,18 +1,40 @@
 import 'package:flutter/material.dart';
-
+import 'package:youtube_player_iframe/youtube_player_iframe.dart';
 // recipe model
 import 'package:recipe_app/Search/Model/recipeModel.dart';
 
-class Details extends StatelessWidget {
+class Details extends StatefulWidget {
   final RecipeModel recipe;
 
-  Details({required this.recipe});
+  Details({Key? key, required this.recipe}) : super(key: key);
+
+  @override
+  _DetailsState createState() => _DetailsState();
+}
+
+class _DetailsState extends State<Details> {
+  late YoutubePlayerController _vidController;
+
+  @override
+  void initState() {
+    super.initState();
+    var vidId =
+        YoutubePlayerController.convertUrlToId(widget.recipe.youtubeVideo!);
+    _vidController =
+        YoutubePlayerController(initialVideoId: vidId ?? "tcodrIK2P_I");
+  }
+
+  @override
+  void dispose() {
+    _vidController.close();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(recipe.title ?? ""),
+        title: Text(widget.recipe.title ?? ""),
         centerTitle: true,
       ),
       body: Container(
@@ -20,11 +42,11 @@ class Details extends StatelessWidget {
           child: Column(
             children: [
               Hero(
-                tag: recipe.id!,
+                tag: widget.recipe.id!,
                 transitionOnUserGestures: true,
                 child: Image.network(
                   //TODO: put fallback image here
-                  recipe.image!,
+                  widget.recipe.image!,
                   fit: BoxFit.cover,
                   height: 250,
                   width: 500,
@@ -43,7 +65,7 @@ class Details extends StatelessWidget {
                           Text("Ingredients:",
                               style: Theme.of(context).textTheme.headline5),
                           SizedBox(height: 8),
-                          ...?_renderIngredientsList(recipe),
+                          ...?_renderIngredientsList(widget.recipe),
                         ],
                       ),
                     ),
@@ -57,7 +79,7 @@ class Details extends StatelessWidget {
                           SizedBox(height: 8),
                           Padding(
                             padding: const EdgeInsets.only(left: 16.0),
-                            child: Text(recipe.instructions ?? "",
+                            child: Text(widget.recipe.instructions ?? "",
                                 style: Theme.of(context).textTheme.bodyText1),
                           )
                         ],
@@ -72,10 +94,13 @@ class Details extends StatelessWidget {
                               style: Theme.of(context).textTheme.headline5),
                           SizedBox(height: 8),
                           Padding(
-                            padding: const EdgeInsets.only(left: 16.0),
-                            child: Text(recipe.youtubeVideo ?? "",
-                                style: Theme.of(context).textTheme.bodyText1),
-                          ),
+                              padding: const EdgeInsets.only(left: 16.0),
+                              child: YoutubePlayerIFrame(
+                                controller: _vidController,
+                                aspectRatio: 16 / 9,
+                              )
+                              // : Text("Waiting for video to initialize...")
+                              ),
                         ],
                       ),
                     ),
