@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 // core modules
 import 'package:recipe_app/Search/Controller/recipeController.dart';
@@ -17,7 +18,15 @@ class MyHomePage extends StatelessWidget {
     return GestureDetector(
       onTap: () => FocusScope.of(context).unfocus(),
       child: Scaffold(
-          appBar: AppBar(title: Text("$title")),
+          extendBodyBehindAppBar: true,
+          appBar: AppBar(
+            elevation: 0,
+            backgroundColor: Colors.transparent,
+            title: Text(
+              "$title",
+              style: GoogleFonts.pattaya(fontSize: 32),
+            ),
+          ),
           body: Stack(
             children: [
               Container(
@@ -71,12 +80,18 @@ class MyHomePage extends StatelessWidget {
                           ),
                           ElevatedButton(
                             style: ButtonStyle(
-                                padding: MaterialStateProperty.all(
-                                    EdgeInsets.symmetric(vertical: 18))),
+                              padding: MaterialStateProperty.all(
+                                EdgeInsets.symmetric(vertical: 18),
+                              ),
+                            ),
                             onPressed: () {
                               recipeController.searchMeal(_controller.text);
                               // Get.toNamed("/search");
-                              Get.to(RecipesPage());
+                              Get.to(RecipesPage(
+                                query: _controller.text.isEmpty
+                                    ? "Chicken"
+                                    : _controller.text,
+                              ));
                             },
                             child: Icon(
                               Icons.search,
