@@ -10,7 +10,7 @@ class RecipeController extends GetxController {
     try {
       isLoading(true);
       var allRecipes = await getRecipes(query: q);
-      print("allRecipes:$allRecipes");
+      // print("allRecipes:$allRecipes");
       recipes.assignAll(allRecipes);
     } catch (ex) {
       print("🧨🧨🧨Oppsi dozi, this error hit me:$ex🧨🧨🧨");
