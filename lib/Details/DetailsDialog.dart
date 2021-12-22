@@ -1,35 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:youtube_player_iframe/youtube_player_iframe.dart';
-// recipe model
 import 'package:recipe_app/Search/Model/recipeModel.dart';
 
-class Details extends StatefulWidget {
+class DetailsDialog extends StatefulWidget {
   final RecipeModel recipe;
 
-  Details({Key? key, required this.recipe}) : super(key: key);
+  const DetailsDialog({Key? key, required this.recipe}) : super(key: key);
 
   @override
-  _DetailsState createState() => _DetailsState();
+  _DetailsDialogState createState() => _DetailsDialogState();
 }
 
-class _DetailsState extends State<Details> {
+class _DetailsDialogState extends State<DetailsDialog> {
   late YoutubePlayerController _vidController;
-  late ScrollController _scrollController;
-  double scrollOffset = 0.0;
 
   @override
   void initState() {
     super.initState();
-    // intialize scroll controller
-    _scrollController = ScrollController()
-      ..addListener(
-        () {
-          setState(() {
-            scrollOffset = _scrollController.offset;
-          });
-        },
-      );
-    // intialize video controller
     var vidId =
         YoutubePlayerController.convertUrlToId(widget.recipe.youtubeVideo!);
     _vidController =
@@ -38,25 +25,17 @@ class _DetailsState extends State<Details> {
 
   @override
   void dispose() {
-    _scrollController.dispose();
     _vidController.close();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      extendBodyBehindAppBar: true,
-      appBar: AppBar(
-        title: Text(widget.recipe.title ?? ""),
-        centerTitle: true,
-        elevation: 0,
-        backgroundColor: Color(0xFF141f29)
-            .withOpacity((scrollOffset / 250).clamp(0, 1).toDouble()),
-      ),
-      body: Container(
+    return AlertDialog(
+      contentPadding: EdgeInsets.all(0),
+      content: Container(
+        width: 700,
         child: SingleChildScrollView(
-          controller: _scrollController,
           child: Column(
             children: [
               Stack(
@@ -81,6 +60,12 @@ class _DetailsState extends State<Details> {
                         end: Alignment.bottomCenter,
                       ),
                     ),
+                  ),
+                  Container(
+                    padding: EdgeInsets.only(top: 8),
+                    alignment: Alignment.bottomCenter,
+                    child: Text(widget.recipe.title ?? "",
+                        style: Theme.of(context).primaryTextTheme.headline6),
                   )
                 ],
               ),
