@@ -10,7 +10,6 @@ class MyHomePage extends StatelessWidget {
   MyHomePage({this.title});
 
   final String? title;
-  final TextEditingController _controller = TextEditingController();
   final RecipeController recipeController = Get.put(RecipeController());
 
   @override
@@ -32,7 +31,7 @@ class MyHomePage extends StatelessWidget {
               Container(
                 decoration: BoxDecoration(
                   image: DecorationImage(
-                      image: AssetImage("/home_wallpaper.jpg"),
+                      image: AssetImage("assets/images/home_wallpaper.jpg"),
                       fit: BoxFit.cover),
                 ),
               ),
@@ -52,17 +51,31 @@ class MyHomePage extends StatelessWidget {
                         "Search it, Make it, \nEat it!",
                         style: Theme.of(context)
                             .textTheme
-                            .headline3
+                            .headline4
                             ?.copyWith(color: Colors.white),
                       ),
+                      const SizedBox(height: 16),
                       Row(
                         children: [
                           Expanded(
                             child: TextField(
+                              textInputAction: TextInputAction.search,
+                              onSubmitted: (input) {
+                                recipeController.searchMeal(input);
+                                Get.to(
+                                  () => RecipesPage(
+                                    query: input.isEmpty ? "Chicken" : input,
+                                  ),
+                                );
+                              },
                               cursorColor: Colors.white,
                               style: TextStyle(color: Colors.white),
-                              controller: _controller,
                               decoration: InputDecoration(
+                                  prefixIcon: Icon(
+                                    Icons.search,
+                                    size: 32,
+                                    color: Colors.white,
+                                  ),
                                   border: OutlineInputBorder(
                                       borderSide:
                                           BorderSide(color: Colors.white)),
@@ -73,31 +86,11 @@ class MyHomePage extends StatelessWidget {
                                       borderSide:
                                           BorderSide(color: Colors.white)),
                                   labelText: "Search",
-                                  // filled: true,
-                                  // fillColor: Colors.black3,
+                                  filled: true,
+                                  fillColor: Colors.black54,
                                   labelStyle: TextStyle(color: Colors.white)),
                             ),
                           ),
-                          ElevatedButton(
-                            style: ButtonStyle(
-                              padding: MaterialStateProperty.all(
-                                EdgeInsets.symmetric(vertical: 18),
-                              ),
-                            ),
-                            onPressed: () {
-                              recipeController.searchMeal(_controller.text);
-                              // Get.toNamed("/search");
-                              Get.to(RecipesPage(
-                                query: _controller.text.isEmpty
-                                    ? "Chicken"
-                                    : _controller.text,
-                              ));
-                            },
-                            child: Icon(
-                              Icons.search,
-                              size: 32,
-                            ),
-                          )
                         ],
                       ),
                     ],

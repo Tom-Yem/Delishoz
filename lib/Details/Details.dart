@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:youtube_player_iframe/youtube_player_iframe.dart';
+// import 'package:youtube_player_iframe/youtube_player_iframe.dart';
 // recipe model
 import 'package:recipe_app/Search/Model/recipeModel.dart';
 
@@ -13,7 +13,7 @@ class Details extends StatefulWidget {
 }
 
 class _DetailsState extends State<Details> {
-  late YoutubePlayerController _vidController;
+  // late YoutubePlayerController _vidController;
   late ScrollController _scrollController;
   double scrollOffset = 0.0;
 
@@ -30,16 +30,16 @@ class _DetailsState extends State<Details> {
         },
       );
     // intialize video controller
-    var vidId =
-        YoutubePlayerController.convertUrlToId(widget.recipe.youtubeVideo!);
-    _vidController =
-        YoutubePlayerController(initialVideoId: vidId ?? "tcodrIK2P_I");
+    // var vidId =
+    //     YoutubePlayerController.convertUrlToId(widget.recipe.youtubeVideo!);
+    // _vidController =
+    //     YoutubePlayerController(initialVideoId: vidId ?? "tcodrIK2P_I");
   }
 
   @override
   void dispose() {
     _scrollController.dispose();
-    _vidController.close();
+    // _vidController.close();
     super.dispose();
   }
 
@@ -125,14 +125,14 @@ class _DetailsState extends State<Details> {
                           Text("Video:",
                               style: Theme.of(context).textTheme.headline5),
                           SizedBox(height: 8),
-                          Padding(
-                              padding: const EdgeInsets.only(left: 16.0),
-                              child: YoutubePlayerIFrame(
-                                controller: _vidController,
-                                aspectRatio: 16 / 9,
-                              )
-                              // : Text("Waiting for video to initialize...")
-                              ),
+                          // Padding(
+                          //     padding: const EdgeInsets.only(left: 16.0),
+                          //     child: YoutubePlayerIFrame(
+                          //       controller: _vidController,
+                          //       aspectRatio: 16 / 9,
+                          //     )
+                          //     // : Text("Waiting for video to initialize...")
+                          //     ),
                         ],
                       ),
                     ),

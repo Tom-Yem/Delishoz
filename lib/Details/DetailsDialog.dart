@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:youtube_player_iframe/youtube_player_iframe.dart';
+// import 'package:youtube_player_iframe/youtube_player_iframe.dart';
 import 'package:recipe_app/Search/Model/recipeModel.dart';
 
 class DetailsDialog extends StatefulWidget {
@@ -12,20 +12,20 @@ class DetailsDialog extends StatefulWidget {
 }
 
 class _DetailsDialogState extends State<DetailsDialog> {
-  late YoutubePlayerController _vidController;
+  // late YoutubePlayerController _vidController;
 
   @override
   void initState() {
     super.initState();
-    var vidId =
-        YoutubePlayerController.convertUrlToId(widget.recipe.youtubeVideo!);
-    _vidController =
-        YoutubePlayerController(initialVideoId: vidId ?? "tcodrIK2P_I");
+    // var vidId =
+    //     YoutubePlayerController.convertUrlToId(widget.recipe.youtubeVideo!);
+    // _vidController =
+    //     YoutubePlayerController(initialVideoId: vidId ?? "tcodrIK2P_I");
   }
 
   @override
   void dispose() {
-    _vidController.close();
+    // _vidController.close();
     super.dispose();
   }
 
@@ -110,14 +110,14 @@ class _DetailsDialogState extends State<DetailsDialog> {
                           Text("Video:",
                               style: Theme.of(context).textTheme.headline5),
                           SizedBox(height: 8),
-                          Padding(
-                              padding: const EdgeInsets.only(left: 16.0),
-                              child: YoutubePlayerIFrame(
-                                controller: _vidController,
-                                aspectRatio: 16 / 9,
-                              )
-                              // : Text("Waiting for video to initialize...")
-                              ),
+                          // Padding(
+                          //     padding: const EdgeInsets.only(left: 16.0),
+                          //     child: YoutubePlayerIFrame(
+                          //       controller: _vidController,
+                          //       aspectRatio: 16 / 9,
+                          //     )
+                          //     // : Text("Waiting for video to initialize...")
+                          //     ),
                         ],
                       ),
                     ),
