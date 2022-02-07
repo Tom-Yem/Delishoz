@@ -6,6 +6,7 @@ import 'package:recipe_app/Details/Details.dart';
 import 'package:recipe_app/Details/DetailsDialog.dart';
 import 'package:recipe_app/Search/Controller/recipeController.dart';
 import 'package:recipe_app/Search/Model/stateView.dart';
+import 'package:recipe_app/Search/View/widgets/widgets.dart';
 import 'package:skeletons/skeletons.dart';
 
 class RecipesPage extends StatelessWidget {
@@ -20,10 +21,21 @@ class RecipesPage extends StatelessWidget {
       body: Obx(() {
         StateView status = recipeController.status.value;
 
-        if (recipeController.status.value == StateView.Empty)
-          return Text("Empty");
-        if (recipeController.status.value == StateView.Error)
-          return Text("Error");
+        if (status == StateView.Error)
+          return UserError(
+            svgUrl: "assets/images/error_svg.svg",
+            title: "Error",
+            description: "Something went wrong\n Please try again.",
+            btnText: "Try Again",
+          );
+        if (status == StateView.Empty)
+          return UserError(
+            svgUrl: "assets/images/notfound_svg.svg",
+            title: "Not Found",
+            description:
+                "What you searched was\n unfortunately not found or doesn't exist.\n Try different keyword like\n 'chicken' or 'cake'",
+            btnText: "Search Again",
+          );
 
         List recipes = recipeController.recipes;
 
