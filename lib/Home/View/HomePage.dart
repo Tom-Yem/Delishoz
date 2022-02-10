@@ -63,9 +63,7 @@ class MyHomePage extends StatelessWidget {
                               onSubmitted: (input) {
                                 recipeController.searchMeal(input);
                                 Get.to(
-                                  () => RecipesPage(
-                                    query: input.isEmpty ? "Chicken" : input,
-                                  ),
+                                  () => RecipesPage(),
                                 );
                               },
                               cursorColor: Colors.white,

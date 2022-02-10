@@ -8,12 +8,14 @@ class UserError extends StatelessWidget {
     required this.title,
     required this.description,
     required this.btnText,
+    required this.btnAction,
   }) : super(key: key);
 
   final String svgUrl;
   final String title;
   final String description;
   final String btnText;
+  final Function() btnAction;
 
   @override
   Widget build(BuildContext context) {
@@ -48,7 +50,7 @@ class UserError extends StatelessWidget {
           height: 56,
         ),
         ElevatedButton(
-          onPressed: () {},
+          onPressed: btnAction,
           style: ButtonStyle(
             shape: MaterialStateProperty.all<RoundedRectangleBorder>(
               RoundedRectangleBorder(
