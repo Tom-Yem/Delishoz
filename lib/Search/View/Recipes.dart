@@ -22,6 +22,9 @@ class RecipesPage extends StatelessWidget {
     searchIconVisible(isVisible);
   }
 
+  // controlls focus for search field
+  FocusNode focusNode = FocusNode();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -45,7 +48,13 @@ class RecipesPage extends StatelessWidget {
             description:
                 "What you searched was\n unfortunately not found or doesn't exist.\n Try different keyword like\n 'chicken' or 'cake'",
             btnText: "Search Again",
-            btnAction: () {},
+            btnAction: () {
+              // go back to succes state
+              recipeController.status(StateView.Success);
+
+              toggleSearchIcon(isVisible: false);
+              focusNode.requestFocus();
+            },
           );
 
         List recipes = recipeController.recipes;
@@ -60,7 +69,10 @@ class RecipesPage extends StatelessWidget {
             ],
           ),
           child: GestureDetector(
-            onTap: () => FocusScope.of(context).unfocus(),
+            onTap: () {
+              FocusScope.of(context).unfocus();
+            },
+            onLongPress: () => toggleSearchIcon(isVisible: true),
             child: CustomScrollView(
               slivers: [
                 SliverAppBar(
@@ -69,21 +81,30 @@ class RecipesPage extends StatelessWidget {
                   ),
                   elevation: 0,
                   backgroundColor: Colors.transparent,
-                  title: Container(
-                    width: searchIconVisible.value ? 0 : double.infinity,
-                    child: TextField(
-                      textInputAction: TextInputAction.search,
-                      onSubmitted: (input) {
-                        recipeController.searchMeal(input);
-                        toggleSearchIcon(isVisible: true);
-                      },
-                      decoration: InputDecoration(
-                        isDense: true,
-                        border: InputBorder.none,
-                        hintText: 'Search',
-                        filled: true,
-                        fillColor: Colors.grey.shade300,
-                      ),
+                  title: Align(
+                    alignment: AlignmentDirectional.centerEnd,
+                    child: LayoutBuilder(
+                      builder: ((context, constraints) => AnimatedContainer(
+                            duration: Duration(milliseconds: 200),
+                            width: searchIconVisible.value
+                                ? 0
+                                : constraints.maxWidth,
+                            child: TextField(
+                              focusNode: focusNode,
+                              textInputAction: TextInputAction.search,
+                              onSubmitted: (input) {
+                                recipeController.searchMeal(input);
+                                toggleSearchIcon(isVisible: true);
+                              },
+                              decoration: InputDecoration(
+                                isDense: true,
+                                border: InputBorder.none,
+                                hintText: 'Search',
+                                filled: true,
+                                fillColor: Colors.grey.shade300,
+                              ),
+                            ),
+                          )),
                     ),
                   ),
                   actions: [

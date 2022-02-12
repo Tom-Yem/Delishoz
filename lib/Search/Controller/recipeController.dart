@@ -14,8 +14,7 @@ class RecipeController extends GetxController {
     status(StateView.Loading);
     try {
       var allRecipes = await getRecipes(query: queryInput);
-      // recipes.assignAll(allRecipes);
-      recipes.assignAll([]);
+      recipes.assignAll(allRecipes);
 
       recipes.isEmpty ? status(StateView.Empty) : status(StateView.Success);
     } catch (ex) {
