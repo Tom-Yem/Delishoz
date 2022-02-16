@@ -187,7 +187,7 @@ class RecipesPage extends StatelessWidget {
                                         builder: (context) =>
                                             DetailsDialog(recipe: recipes[i]))
                                     : Get.to(
-                                        Details(
+                                        () => Details(
                                           recipe: recipes[i],
                                         ),
                                       );
