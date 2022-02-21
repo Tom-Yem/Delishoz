@@ -1,11 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 
 // Homepage view
 import 'package:recipe_app/Home/View/HomePage.dart';
+import 'package:recipe_app/hive_adapters/ingredient_adapter.dart';
+import 'package:recipe_app/hive_adapters/recipe_adapter.dart';
 
-void main() {
+Future<void> main() async {
+  await Hive.initFlutter();
+  await Hive.openBox("saved");
+  Hive.registerAdapter(IngredientHiveAdapter());
+  Hive.registerAdapter(RecipeHiveAdapter());
   runApp(MyApp());
 }
 
