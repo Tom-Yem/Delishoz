@@ -207,7 +207,9 @@ class RecipesPage extends StatelessWidget {
                                       icon: Icon(
                                         Icons.bookmark_add_rounded,
                                       ),
-                                      onPressed: () {},
+                                      onPressed: () {
+                                        recipeController.saveRecipe(recipes[i]);
+                                      },
                                     ),
                                   ),
                                 ),

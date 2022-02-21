@@ -5,6 +5,7 @@ import 'package:google_fonts/google_fonts.dart';
 // core modules
 import 'package:recipe_app/Search/Controller/recipeController.dart';
 import 'package:recipe_app/Search/View/Recipes.dart';
+import 'package:recipe_app/Saved/Saved.dart';
 
 class MyHomePage extends StatelessWidget {
   MyHomePage({this.title});
@@ -25,6 +26,15 @@ class MyHomePage extends StatelessWidget {
               "$title",
               style: GoogleFonts.pattaya(fontSize: 32),
             ),
+            actions: [
+              IconButton(
+                icon: Icon(Icons.bookmarks_rounded),
+                onPressed: () {
+                  recipeController.getSavedRecipes();
+                  Get.to(() => Saved());
+                },
+              )
+            ],
           ),
           body: Stack(
             children: [

@@ -49,6 +49,7 @@ class RecipeModel {
   String? instructions;
   String? image;
   String? youtubeVideo;
+  bool isSaved = false;
   List<Ingredient>? ingredients;
 
   RecipeModel(
