@@ -1,10 +1,14 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:like_button/like_button.dart';
 
 // core modules
 import 'package:recipe_app/Details/Details.dart';
 import 'package:recipe_app/Details/DetailsDialog.dart';
 import 'package:recipe_app/Search/Controller/recipeController.dart';
+import 'package:recipe_app/Search/Model/recipeModel.dart';
 import 'package:recipe_app/Search/Model/stateView.dart';
 import 'package:recipe_app/Search/View/widgets/widgets.dart';
 import 'package:skeletons/skeletons.dart';
@@ -57,7 +61,7 @@ class RecipesPage extends StatelessWidget {
             },
           );
 
-        List recipes = recipeController.recipes;
+        List<RecipeModel> recipes = recipeController.recipes;
 
         return SkeletonTheme(
           shimmerGradient: LinearGradient(
@@ -203,12 +207,23 @@ class RecipesPage extends StatelessWidget {
                                   footer: GridTileBar(
                                     title: Text(recipes[i].title ?? ""),
                                     backgroundColor: Colors.black54,
-                                    trailing: IconButton(
-                                      icon: Icon(
-                                        Icons.bookmark_add_rounded,
-                                      ),
-                                      onPressed: () {
-                                        recipeController.saveRecipe(recipes[i]);
+                                    trailing: LikeButton(
+                                      likeBuilder: (bool isLiked) {
+                                        return Icon(
+                                          isLiked
+                                              ? Icons.bookmark_added_rounded
+                                              : Icons.bookmark_add_outlined,
+                                        );
+                                      },
+                                      isLiked: recipes[i].isSaved,
+                                      onTap: (bool isLiked) async {
+                                        isLiked
+                                            ? recipeController
+                                                .unsaveRecipe(recipes[i])
+                                            : recipeController
+                                                .saveRecipe(recipes[i]);
+
+                                        return !isLiked;
                                       },
                                     ),
                                   ),

@@ -81,12 +81,12 @@ class _DetailsState extends State<Details> {
                 ),
               ),
             ),
-            actions: [
-              Padding(
-                padding: const EdgeInsets.only(right: 8.0),
-                child: Icon(Icons.bookmark_add_rounded),
-              ),
-            ],
+            // actions: [
+            //   Padding(
+            //     padding: const EdgeInsets.only(right: 8.0),
+            //     child: Icon(Icons.bookmark_add_rounded),
+            //   ),
+            // ],
           ),
           SliverToBoxAdapter(
             child: Padding(
