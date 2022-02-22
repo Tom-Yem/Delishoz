@@ -10,9 +10,9 @@ import 'package:recipe_app/hive_adapters/recipe_adapter.dart';
 
 Future<void> main() async {
   await Hive.initFlutter();
-  await Hive.openBox("saved");
   Hive.registerAdapter(IngredientHiveAdapter());
   Hive.registerAdapter(RecipeHiveAdapter());
+  await Hive.openBox("saved");
   runApp(MyApp());
 }
 

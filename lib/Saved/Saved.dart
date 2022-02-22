@@ -15,7 +15,7 @@ class Saved extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Obx(() {
-        StateView status = _recipeController.status.value;
+        StateView status = _recipeController.status2.value;
         List savedRecipes = _recipeController.savedRecipes;
 
         return SkeletonTheme(
@@ -79,42 +79,41 @@ class Saved extends StatelessWidget {
                     : [
                         for (int i = 0; i < savedRecipes.length; i++)
                           GestureDetector(
-                              onTap: () {
-                                // bool isDesktop =
-                                //     MediaQuery.of(context).size.width > 800;
-                                // (isDesktop)
-                                //     ? showDialog(
-                                //         context: context,
-                                //         builder: (context) =>
-                                //             DetailsDialog(recipe: savedRecipes[i]))
-                                //     : Get.to(
-                                //         () => Details(
-                                //           recipe: savedRecipes[i],
-                                //         ),
-                                //       );
-                              },
-                              child: Text("${savedRecipes[i]}")
-                              // ClipRRect(
-                              //   borderRadius: BorderRadius.circular(8),
-                              //   child: GridTile(
-                              //     child: Hero(
-                              //       tag: savedRecipes[i].id!,
-                              //       child: Image.network(savedRecipes[i].image!),
-                              //     ),
-                              //     //TODO: Find fallback image for this
-                              //     footer: GridTileBar(
-                              //       title: Text(savedRecipes[i].title ?? ""),
-                              //       backgroundColor: Colors.black54,
-                              //       trailing: IconButton(
-                              //         icon: Icon(
-                              //           Icons.bookmark_add_rounded,
-                              //         ),
-                              //         onPressed: () {},
-                              //       ),
-                              //     ),
-                              //   ),
-                              // ),
-                              )
+                            onTap: () {
+                              bool isDesktop =
+                                  MediaQuery.of(context).size.width > 800;
+                              (isDesktop)
+                                  ? showDialog(
+                                      context: context,
+                                      builder: (context) => DetailsDialog(
+                                          recipe: savedRecipes[i]))
+                                  : Get.to(
+                                      () => Details(
+                                        recipe: savedRecipes[i],
+                                      ),
+                                    );
+                            },
+                            child: ClipRRect(
+                              borderRadius: BorderRadius.circular(8),
+                              child: GridTile(
+                                child: Hero(
+                                  tag: savedRecipes[i].id!,
+                                  child: Image.network(savedRecipes[i].image!),
+                                ),
+                                //TODO: Find fallback image for this
+                                footer: GridTileBar(
+                                  title: Text(savedRecipes[i].title ?? ""),
+                                  backgroundColor: Colors.black54,
+                                  trailing: IconButton(
+                                    icon: Icon(
+                                      Icons.bookmark_add_rounded,
+                                    ),
+                                    onPressed: () {},
+                                  ),
+                                ),
+                              ),
+                            ),
+                          )
                       ],
               )
             ],
