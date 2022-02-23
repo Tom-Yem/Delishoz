@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hive_flutter/hive_flutter.dart';
@@ -13,6 +14,15 @@ Future<void> main() async {
   Hive.registerAdapter(IngredientHiveAdapter());
   Hive.registerAdapter(RecipeHiveAdapter());
   await Hive.openBox("saved");
+
+  // make system bottom navigation bar transparent
+  SystemChrome.setSystemUIOverlayStyle(
+    SystemUiOverlayStyle(
+      systemNavigationBarColor: Colors.transparent,
+      systemNavigationBarContrastEnforced: true,
+    ),
+  );
+
   runApp(MyApp());
 }
 
