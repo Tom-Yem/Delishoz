@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -15,6 +16,19 @@ class MyHomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // pre-cache asset images & svgs for fast access
+    precacheImage(AssetImage("assets/images/home_wallpaper.jpg"), context);
+    precachePicture(
+      ExactAssetPicture(
+          SvgPicture.svgStringDecoderBuilder, "assets/images/notfound_svg.svg"),
+      context,
+    );
+    precachePicture(
+      ExactAssetPicture(
+          SvgPicture.svgStringDecoderBuilder, "assets/images/error_svg.svg"),
+      context,
+    );
+
     return GestureDetector(
       onTap: () => FocusScope.of(context).unfocus(),
       child: Scaffold(
@@ -33,7 +47,7 @@ class MyHomePage extends StatelessWidget {
                   recipeController.getSavedRecipes();
                   Get.to(() => Saved());
                 },
-              )
+              ),
             ],
           ),
           body: Stack(

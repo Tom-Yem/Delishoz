@@ -1,8 +1,10 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 
 // recipe model
 import 'package:recipe_app/Search/Model/recipeModel.dart';
-import 'package:youtube_player_iframe/youtube_player_iframe.dart';
+import 'package:skeletons/skeletons.dart';
+import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 // import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
 class Details extends StatefulWidget {
@@ -32,10 +34,11 @@ class _DetailsState extends State<Details> {
         },
       );
     // intialize video controller
-    var vidId =
-        YoutubePlayerController.convertUrlToId(widget.recipe.youtubeVideo!);
-    _vidController =
-        YoutubePlayerController(initialVideoId: vidId ?? "w9uWPBDHEKE");
+    var vidId = YoutubePlayer.convertUrlToId(widget.recipe.youtubeVideo!);
+    _vidController = YoutubePlayerController(
+      initialVideoId: vidId ?? "w9uWPBDHEKE",
+      flags: YoutubePlayerFlags(autoPlay: false),
+    );
     // print("vidId:$vidId");
   }
 
@@ -48,7 +51,7 @@ class _DetailsState extends State<Details> {
   @override
   void dispose() {
     _scrollController.dispose();
-    _vidController.close();
+    _vidController.dispose();
     super.dispose();
   }
 
@@ -56,92 +59,103 @@ class _DetailsState extends State<Details> {
   Widget build(BuildContext context) {
     String title = widget.recipe.title ?? "";
 
-    return Scaffold(
-      body: CustomScrollView(
-        slivers: [
-          SliverAppBar(
-            elevation: 0,
-            pinned: true,
-            expandedHeight: MediaQuery.of(context).size.height / 3,
-            flexibleSpace: FlexibleSpaceBar(
-              title: Text(title),
-              centerTitle: true,
-              background: Hero(
-                tag: widget.recipe.id!,
-                transitionOnUserGestures: true,
-                child: DecoratedBox(
-                  position: DecorationPosition.foreground,
-                  decoration: BoxDecoration(color: Colors.black26),
-                  child: Image.network(
-                      //TODO: put fallback image here
-                      widget.recipe.image!,
-                      fit: BoxFit.cover,
-                      height: 250,
-                      width: MediaQuery.of(context).size.width),
+    return SkeletonTheme(
+      shimmerGradient: LinearGradient(
+        colors: [
+          Colors.grey.shade300,
+          Colors.grey.shade200,
+          Colors.grey.shade200,
+          Colors.grey.shade300,
+        ],
+      ),
+      child: Scaffold(
+        body: CustomScrollView(
+          slivers: [
+            SliverAppBar(
+              elevation: 0,
+              pinned: true,
+              expandedHeight: MediaQuery.of(context).size.height / 3,
+              flexibleSpace: FlexibleSpaceBar(
+                title: Text(title),
+                centerTitle: true,
+                background: Hero(
+                  tag: widget.recipe.id!,
+                  transitionOnUserGestures: true,
+                  child: DecoratedBox(
+                    position: DecorationPosition.foreground,
+                    decoration: BoxDecoration(color: Colors.black26),
+                    child: Image.network(
+                        //TODO: put fallback image here
+                        widget.recipe.image!,
+                        fit: BoxFit.cover,
+                        height: 250,
+                        width: MediaQuery.of(context).size.width),
+                  ),
                 ),
               ),
+              // actions: [
+              //   Padding(
+              //     padding: const EdgeInsets.only(right: 8.0),
+              //     child: Icon(Icons.bookmark_add_rounded),
+              //   ),
+              // ],
             ),
-            // actions: [
-            //   Padding(
-            //     padding: const EdgeInsets.only(right: 8.0),
-            //     child: Icon(Icons.bookmark_add_rounded),
-            //   ),
-            // ],
-          ),
-          SliverToBoxAdapter(
-            child: Padding(
-              padding: const EdgeInsets.all(24.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    "Ingredients",
-                    style: TextStyle(fontWeight: FontWeight.bold),
-                  ),
-                  SizedBox(height: 16),
-                  ...?_renderIngredientsList(widget.recipe, context),
-                  SizedBox(height: 24),
-                  Text(
-                    "Directions",
-                    style: TextStyle(fontWeight: FontWeight.bold),
-                  ),
-                  SizedBox(height: 16),
-                  Stack(
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.only(left: 16.0),
-                        child: Text(
-                          widget.recipe.instructions ?? "",
-                          style: Theme.of(context).textTheme.bodyText1,
+            SliverToBoxAdapter(
+              child: Padding(
+                padding: const EdgeInsets.all(24.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      "Ingredients",
+                      style: TextStyle(fontWeight: FontWeight.bold),
+                    ),
+                    SizedBox(height: 16),
+                    ...?_renderIngredientsList(widget.recipe, context),
+                    SizedBox(height: 24),
+                    Text(
+                      "Directions",
+                      style: TextStyle(fontWeight: FontWeight.bold),
+                    ),
+                    SizedBox(height: 16),
+                    Stack(
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.only(left: 16.0),
+                          child: Text(
+                            widget.recipe.instructions ?? "",
+                            style: Theme.of(context).textTheme.bodyText1,
+                          ),
                         ),
-                      ),
-                      Container(
-                        color: Colors.grey.shade400,
-                        height: 40,
-                        width: 4,
-                      ),
-                      Positioned(
-                        bottom: 0,
-                        right: 0,
-                        child: Container(
+                        Container(
                           color: Colors.grey.shade400,
                           height: 40,
                           width: 4,
                         ),
-                      )
-                    ],
-                  ),
-                  SizedBox(height: 24),
-                  Text("Video", style: TextStyle(fontWeight: FontWeight.bold)),
-                  SizedBox(height: 16),
-                  YoutubePlayerIFrame(
-                    controller: _vidController,
-                  )
-                ],
+                        Positioned(
+                          bottom: 0,
+                          right: 0,
+                          child: Container(
+                            color: Colors.grey.shade400,
+                            height: 40,
+                            width: 4,
+                          ),
+                        )
+                      ],
+                    ),
+                    SizedBox(height: 24),
+                    Text("Video",
+                        style: TextStyle(fontWeight: FontWeight.bold)),
+                    SizedBox(height: 16),
+                    YoutubePlayer(
+                      controller: _vidController,
+                    )
+                  ],
+                ),
               ),
-            ),
-          )
-        ],
+            )
+          ],
+        ),
       ),
     );
   }
@@ -151,10 +165,27 @@ List? _renderIngredientsList(recipe, context) {
   return recipe.ingredients
       ?.map(
         (ing) => ListTile(
-          leading: CircleAvatar(
-            backgroundColor: Colors.transparent,
-            backgroundImage: NetworkImage(
-              "https://themealdb.com/images/ingredients/${ing.ingredient}.png",
+          leading: ClipOval(
+            child: CachedNetworkImage(
+              width: 40,
+              height: 40,
+              imageUrl:
+                  "https://themealdb.com/images/ingredients/${ing.ingredient}.png",
+              placeholder: (context, url) => SkeletonAvatar(
+                style: SkeletonAvatarStyle(
+                  shape: BoxShape.circle,
+                ),
+              ),
+              errorWidget: (context, url, error) {
+                print("🧨🧨🎊🎍🎋$error");
+                return CircleAvatar(
+                  backgroundColor: Colors.grey.shade300,
+                  child: Icon(
+                    Icons.error,
+                    color: Colors.grey.shade500,
+                  ),
+                );
+              },
             ),
           ),
           title: Padding(

@@ -30,7 +30,7 @@ class RecipeController extends GetxController {
     try {
       List<RecipeModel> allRecipes = await getRecipes(query: queryInput);
 
-      if (savedRecipes.isEmpty) getSavedRecipes();
+      if (savedRecipes.isEmpty) await getSavedRecipes();
       // check if there are saved recipes & mark them saved
       allRecipes = allRecipes.map((e) {
         bool isRecipeSaved = savedRecipes.any((element) => element.id == e.id);
@@ -46,14 +46,16 @@ class RecipeController extends GetxController {
     }
   }
 
-  void getSavedRecipes() async {
+  Future getSavedRecipes() async {
     status2(StateView.Loading);
 
     try {
       List allSavedRecipes = saved.get("saved_recipes") ?? [];
       List<RecipeModel> convertedSavedRecipes =
           List.from(allSavedRecipes.map((e) => modelFromHive(e)));
-      await Future.delayed(Duration(milliseconds: 1000));
+
+      // A short fake delay just for showing good loading ui
+      await Future.delayed(Duration(milliseconds: 300));
       savedRecipes.assignAll(convertedSavedRecipes);
 
       savedRecipes.isEmpty
