@@ -43,7 +43,14 @@ class MyApp extends StatelessWidget {
         textTheme: GoogleFonts.poppinsTextTheme(),
       ),
       initialRoute: "/",
-      getPages: [GetPage(name: "/", page: () => MyHomePage(title: 'Delishoz'))],
+      getPages: [
+        GetPage(
+          name: "/",
+          page: () => MyHomePage(title: 'Delishoz'),
+        ),
+
+        // GetPage(name: "/3", page: () => Three(),),
+      ],
     );
   }
 }
