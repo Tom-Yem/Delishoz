@@ -1,15 +1,12 @@
-import 'dart:developer';
-
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:like_button/like_button.dart';
 
 // core modules
-import 'package:recipe_app/Details/Details.dart';
-import 'package:recipe_app/Details/DetailsDialog.dart';
 import 'package:recipe_app/Search/Controller/recipeController.dart';
 import 'package:recipe_app/Search/Model/recipeModel.dart';
 import 'package:recipe_app/Search/Model/stateView.dart';
+import 'package:recipe_app/Search/View/widgets/RecipeCard.dart';
 import 'package:recipe_app/Search/View/widgets/widgets.dart';
 import 'package:skeletons/skeletons.dart';
 
@@ -127,48 +124,10 @@ class RecipesPage extends StatelessWidget {
                       )
                   ],
                 ),
-                SliverToBoxAdapter(
-                  child: Padding(
-                    padding: const EdgeInsets.only(left: 16.0, bottom: 24.0),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        status == StateView.Loading
-                            ? SizedBox(
-                                width: MediaQuery.of(context).size.width / 4,
-                                child: SkeletonParagraph(
-                                  style: SkeletonParagraphStyle(
-                                    lines: 1,
-                                  ),
-                                ),
-                              )
-                            : Text(
-                                "${recipeController.query.value.capitalize}",
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .headline5
-                                    ?.copyWith(
-                                      fontWeight: FontWeight.bold,
-                                      color: Colors.black,
-                                    ),
-                              ),
-                        status == StateView.Loading
-                            ? SizedBox(
-                                width: MediaQuery.of(context).size.width / 2,
-                                child: SkeletonParagraph(
-                                  style: SkeletonParagraphStyle(
-                                    lines: 1,
-                                  ),
-                                ),
-                              )
-                            : Text(
-                                "${recipes.length} results found",
-                                style: Theme.of(context).textTheme.caption,
-                              ),
-                      ],
-                    ),
-                  ),
-                ),
+                Header(
+                    status: status,
+                    recipeController: recipeController,
+                    recipes: recipes),
                 SliverGrid.count(
                   crossAxisCount:
                       MediaQuery.of(context).size.width <= 800 ? 2 : 4,
@@ -181,55 +140,10 @@ class RecipesPage extends StatelessWidget {
                         )
                       : [
                           for (int i = 0; i < recipes.length; i++)
-                            GestureDetector(
-                              onTap: () {
-                                bool isDesktop =
-                                    MediaQuery.of(context).size.width > 800;
-                                (isDesktop)
-                                    ? showDialog(
-                                        context: context,
-                                        builder: (context) =>
-                                            DetailsDialog(recipe: recipes[i]))
-                                    : Get.to(
-                                        () => Details(
-                                          recipe: recipes[i],
-                                        ),
-                                      );
-                              },
-                              child: ClipRRect(
-                                borderRadius: BorderRadius.circular(8),
-                                child: GridTile(
-                                  child: Hero(
-                                    tag: recipes[i].id!,
-                                    child: Image.network(recipes[i].image!),
-                                  ),
-                                  //TODO: Find fallback image for this
-                                  footer: GridTileBar(
-                                    title: Text(recipes[i].title ?? ""),
-                                    backgroundColor: Colors.black54,
-                                    trailing: LikeButton(
-                                      likeBuilder: (bool isLiked) {
-                                        return Icon(
-                                          isLiked
-                                              ? Icons.bookmark_added_rounded
-                                              : Icons.bookmark_add_outlined,
-                                        );
-                                      },
-                                      isLiked: recipes[i].isSaved,
-                                      onTap: (bool isLiked) async {
-                                        isLiked
-                                            ? recipeController
-                                                .unsaveRecipe(recipes[i])
-                                            : recipeController
-                                                .saveRecipe(recipes[i]);
-
-                                        return !isLiked;
-                                      },
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            )
+                            RecipeCard(
+                                recipes: recipes,
+                                currentIndex: i,
+                                recipeController: recipeController)
                         ],
                 )
               ],

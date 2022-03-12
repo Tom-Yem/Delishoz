@@ -17,28 +17,15 @@ Future<void> main() async {
 }
 
 class MyApp extends StatelessWidget {
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return GetMaterialApp(
       title: 'Flutter Demo',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
-        // TODO: Clean primary swatch part
         primarySwatch: MaterialColor(
           0xFF141f29,
-          {
-            50: Color.fromRGBO(20, 31, 41, 1),
-            100: Color.fromRGBO(20, 31, 41, 1),
-            200: Color.fromRGBO(20, 31, 41, 1),
-            300: Color.fromRGBO(20, 31, 41, 1),
-            400: Color.fromRGBO(20, 31, 41, 1),
-            500: Color.fromRGBO(20, 31, 41, 1),
-            600: Color.fromRGBO(20, 31, 41, 1),
-            700: Color.fromRGBO(20, 31, 41, 1),
-            800: Color.fromRGBO(20, 31, 41, 1),
-            900: Color.fromRGBO(20, 31, 41, 1),
-          },
+          getAppPrimarySwatch(),
         ),
         textTheme: GoogleFonts.poppinsTextTheme(),
       ),
@@ -48,9 +35,20 @@ class MyApp extends StatelessWidget {
           name: "/",
           page: () => MyHomePage(title: 'Delishoz'),
         ),
-
-        // GetPage(name: "/3", page: () => Three(),),
       ],
     );
   }
 }
+
+Map<int, Color> getAppPrimarySwatch() => {
+      50: Color.fromRGBO(20, 31, 41, 1),
+      100: Color.fromRGBO(20, 31, 41, 1),
+      200: Color.fromRGBO(20, 31, 41, 1),
+      300: Color.fromRGBO(20, 31, 41, 1),
+      400: Color.fromRGBO(20, 31, 41, 1),
+      500: Color.fromRGBO(20, 31, 41, 1),
+      600: Color.fromRGBO(20, 31, 41, 1),
+      700: Color.fromRGBO(20, 31, 41, 1),
+      800: Color.fromRGBO(20, 31, 41, 1),
+      900: Color.fromRGBO(20, 31, 41, 1),
+    };
