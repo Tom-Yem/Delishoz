@@ -13,7 +13,7 @@ A mobile application made with Flutter and Dart for searching recipes based on a
 ![Page8](./Github_Assets/page8.jpg)
 ![Page9](./Github_Assets/page9.jpg)
 
-##Features 
+## Features 
 
 - Search recipes by keyword
 - View recipe ingredients, with text and video instructions on how to make the recipe
