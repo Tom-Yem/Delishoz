@@ -1,5 +1,7 @@
 # Delishoz
-A mobile application made with Flutter and Dart for searching recipes based on a given keyword and serving detailed written ingredients, instructions, and videos to make the recipe.
+Finding a recipe online often means jumping between multiple websites to gather ingredients, written instructions, and video tutorials. I built this application to make that process simpler by bringing everything together into a single mobile experience.
+
+The application allows users to search for recipes using keywords, browse matching results, save favorite recipes for later, and view both written and video cooking instructions. Each recipe includes a complete ingredient list and step-by-step preparation guidance.
 
 ## Screenshots
 
@@ -16,11 +18,11 @@ A mobile application made with Flutter and Dart for searching recipes based on a
 ## Features 
 
 - Search recipes by keyword
-- View recipe ingredients, with text and video instructions on how to make the recipe
-- Save Favorite recipes
-- Responsive mobile UI
-- API integration
-- Error handling for invalid searches with beautiful error pages/UI
+- View complete ingredient lists
+- Access written cooking instructions
+- Watch video recipe tutorials
+- Save and manage favorite recipes
+- Mobile-friendly user interface
 
 ## Technologies
 
